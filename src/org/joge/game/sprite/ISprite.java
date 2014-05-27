@@ -17,7 +17,7 @@
  */
 package org.joge.game.sprite;
 
-import org.joge.game.j2d.Graphics;
+import org.joge.draw.Graphics;
 
 /**
  *

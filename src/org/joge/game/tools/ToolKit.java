@@ -18,8 +18,10 @@
 package org.joge.game.tools;
 
 import java.io.IOException;
-import org.joge.game.j2d.Texture;
-import org.joge.game.j2d.TextureLoader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.joge.draw.texture.Texture;
+import org.joge.draw.texture.TextureLoader;
 
 /**
  *
@@ -35,9 +37,9 @@ public abstract class ToolKit
         try
         {
             texture = TextureLoader.get().getTexture(ref);
-        } catch (IOException e)
+        } catch (IOException ex)
         {
-            System.err.println("Kann die Datei: " + ref + " nicht finden");
+            Logger.getLogger(ToolKit.class.getName()).log(Level.SEVERE, null, ex);
         }
         return texture;
     }

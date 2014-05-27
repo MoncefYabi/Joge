@@ -17,7 +17,9 @@
  */
 package org.joge.game;
 
-import org.joge.game.j2d.Graphics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.joge.draw.Graphics;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -54,9 +56,9 @@ public abstract class Game
             g = new Graphics();
             // Start the game
             gameLoop();
-        } catch (LWJGLException e)
+        } catch (LWJGLException ex)
         {
-            e.printStackTrace();
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(-1); // There is no point in running without hardware acceleration right?
         }
 
@@ -232,9 +234,9 @@ public abstract class Game
 
 
             return true;
-        } catch (LWJGLException e)
+        } catch (LWJGLException ex)
         {
-            System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=" + fullscreen + e);
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return false;

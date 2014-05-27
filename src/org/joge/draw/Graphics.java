@@ -15,8 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.game.j2d;
+package org.joge.draw;
 
+import org.joge.draw.font.Font;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.glCallList;
 import static org.lwjgl.opengl.GL11.glTranslatef;
@@ -51,7 +52,6 @@ public class Graphics
     {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
-
 
     private void checkPush()
     {
@@ -122,16 +122,19 @@ public class Graphics
             GL11.glLoadIdentity();
         }
     }
-    public void drawString(String text, Font font,float xpos, float ypos)
+
+    public void drawString(String text, Font font, float xpos, float ypos)
     {
         setColor();
-        glTranslatef(xpos, ypos, 0.0f);
-        for (int i = 0; i < text.length(); i++)
-        {
-           
-            glCallList(font.getBase() + text.charAt(i));
-            glTranslatef(font.getWidth()/2, 0.0f, 0.0f);
-        }
+        font.render(text, color, xpos, ypos);
+
+//        glTranslatef(xpos, ypos, 0.0f);
+//        for (int i = 0; i < text.length(); i++)
+//        {
+//           
+//            glCallList(font.getBase() + text.charAt(i));
+//            glTranslatef(font.getWidth()/2, 0.0f, 0.0f);
+//        }
         stop();
     }
 
