@@ -87,12 +87,12 @@ public class Run extends Game
     public void render(Graphics g)
     {
         this.clearScreen();
-        sp.render(g);
+        
         g.setColor(Color.BLUE);
         String msg = "FPS: "+this.getFPS()+ "x: "+xG+" y:"+ yG;
         g.drawString(msg, font, xG, yG);     
         g.drawString("Hello THIS IS JOGE", font, 10, 10);     
-        
+        sp.render(g);
         
     }
 }
