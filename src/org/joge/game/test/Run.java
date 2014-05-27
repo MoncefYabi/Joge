@@ -90,8 +90,8 @@ public class Run extends Game
         g.setColor(Color.BLUE);
         sp.render(g);
         String msg = "FPS: "+this.getFPS()+ "x: "+xG+" y:"+ yG;
-        font.render(msg, Color.yellow, xG, yG);
+        g.drawString(msg, font,xG, yG);
         
-        font.render("A", Color.yellow, 200, 200);
+        g.drawString("A", font, 200, 200);
     }
 }
