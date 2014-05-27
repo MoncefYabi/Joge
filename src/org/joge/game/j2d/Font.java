@@ -29,9 +29,9 @@ import static org.lwjgl.opengl.GL11.glNewList;
 public class Font
 {
 
-    private int base;
-    private int width;
-    private int height;
+    private final int base;
+    private final int width;
+    private final int height;
 
     public Font(String fontPath)
     {

@@ -53,15 +53,15 @@ public class TextureLoader
     /**
      * The table of textures that have been loaded in this loader
      */
-    private HashMap<String, Texture> table = new HashMap<String, Texture>();
+    private HashMap<String, Texture> table = new HashMap<>();
     /**
      * The colour model including alpha for the GL image
      */
-    private ColorModel glAlphaColorModel;
+    private final ColorModel glAlphaColorModel;
     /**
      * The colour model for the GL image
      */
-    private ColorModel glColorModel;
+    private final ColorModel glColorModel;
     private boolean deferred;
 
     public void setDeferredLoading(boolean deferred)

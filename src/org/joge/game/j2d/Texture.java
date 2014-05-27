@@ -26,8 +26,8 @@ import org.lwjgl.opengl.GL11;
 public class Texture
 {
 
-    private int target;
-    private int textureID;
+    private final int target;
+    private final int textureID;
     private int height;
     private int width;
     private int textureWidth;

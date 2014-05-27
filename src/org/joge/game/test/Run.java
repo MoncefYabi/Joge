@@ -21,6 +21,7 @@ import org.joge.game.Game;
 import org.joge.game.j2d.Color;
 import org.joge.game.j2d.Font;
 import org.joge.game.j2d.Graphics;
+import org.joge.game.sprite.Sprite;
 import static org.lwjgl.input.Keyboard.*;
 
 /**
@@ -33,6 +34,7 @@ public class Run extends Game
     private float xG = 0, yG = 0;
     
     private Font font;
+    private Sprite sp= null;
 
     /**
      * @param args the command line arguments
@@ -46,9 +48,9 @@ public class Run extends Game
     @Override
     protected void init()
     {
-
-        font= new Font("font/vera.gif");
-
+        sp = new Sprite("images/boss.gif");
+        font= new Font("font/verdana.gif");
+        
     }
 
     @Override
@@ -85,10 +87,12 @@ public class Run extends Game
     public void render(Graphics g)
     {
         this.clearScreen();
+        sp.render(g);
         g.setColor(Color.BLUE);
         String msg = "FPS: "+this.getFPS()+ "x: "+xG+" y:"+ yG;
-        g.drawString(msg, font, xG, yG);
-
+        g.drawString(msg, font, xG, yG);     
+        g.drawString("Hello THIS IS JOGE", font, 10, 10);     
+        
         
     }
 }

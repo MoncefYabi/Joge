@@ -132,6 +132,7 @@ public class Graphics
             glCallList(font.getBase() + text.charAt(i));
             glTranslatef(font.getWidth()/2, 0.0f, 0.0f);
         }
+        stop();
     }
 
     public void drawLine(float x1, float y1, float x2, float y2)
