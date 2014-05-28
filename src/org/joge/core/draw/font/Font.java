@@ -31,7 +31,7 @@ import org.lwjgl.opengl.GL11;
 
 /**
  *
- * @author dell
+ * @author Moncef YABI
  */
 public class Font
 {
