@@ -25,7 +25,7 @@ import java.util.Queue;
 import org.joge.core.draw.Graphics;
 import org.joge.core.draw.Image;
 import org.joge.game.animation.Frame;
-import org.joge.game.tools.ToolKit;
+import org.joge.core.tools.ToolKit;
 
 /**
  *

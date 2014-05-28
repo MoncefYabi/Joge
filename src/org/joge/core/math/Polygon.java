@@ -2,7 +2,6 @@ package org.joge.core.math;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A polygon implementation meeting the <code>Shape</code> contract. 

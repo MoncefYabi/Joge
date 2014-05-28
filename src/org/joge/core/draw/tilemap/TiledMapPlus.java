@@ -15,7 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.joge.core.draw.Image;
-import org.joge.game.tools.Base64;
+import org.joge.core.tools.Base64;
 
 
 

@@ -1,4 +1,4 @@
-package org.joge.game.tools;
+package org.joge.core.tools;
 
 /**
  * Encodes and decodes to and from Base64 notation.

@@ -7,7 +7,7 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.joge.core.draw.Image;
-import org.joge.game.tools.ToolKit;
+import org.joge.core.tools.ToolKit;
 
 
 

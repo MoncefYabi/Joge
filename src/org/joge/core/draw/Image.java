@@ -18,7 +18,7 @@
 package org.joge.core.draw;
 
 import org.joge.core.draw.texture.Texture;
-import org.joge.game.tools.ToolKit;
+import org.joge.core.tools.ToolKit;
 import org.lwjgl.opengl.GL11;
 
 /**

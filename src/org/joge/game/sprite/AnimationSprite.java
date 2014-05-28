@@ -18,7 +18,7 @@
 package org.joge.game.sprite;
 
 import org.joge.core.draw.Image;
-import org.joge.game.tools.ToolKit;
+import org.joge.core.tools.ToolKit;
 
 /**
  *

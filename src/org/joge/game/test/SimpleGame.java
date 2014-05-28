@@ -24,7 +24,7 @@ import org.joge.core.draw.Image;
 import org.joge.core.draw.font.Font;
 import org.joge.game.sprite.FSprite;
 import org.joge.game.sprite.Sprite;
-import org.joge.game.tools.ToolKit;
+import org.joge.core.tools.ToolKit;
 
 /**
  *
