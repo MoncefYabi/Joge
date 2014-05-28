@@ -17,7 +17,7 @@
  */
 package org.joge.game.sprite;
 
-import org.joge.draw.Graphics;
+import org.joge.core.draw.Graphics;
 
 /**
  *

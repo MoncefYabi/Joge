@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.draw.font;
+package org.joge.core.draw.font;
 
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -24,9 +24,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.joge.draw.Color;
-import org.joge.draw.texture.Texture;
-import org.joge.draw.texture.TextureLoader;
+import org.joge.core.draw.Color;
+import org.joge.core.draw.texture.Texture;
+import org.joge.core.draw.texture.TextureLoader;
 import org.lwjgl.opengl.GL11;
 
 /**

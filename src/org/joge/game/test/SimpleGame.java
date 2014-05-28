@@ -18,9 +18,9 @@
 package org.joge.game.test;
 
 import org.joge.game.Game;
-import org.joge.draw.Color;
-import org.joge.draw.Graphics;
-import org.joge.draw.font.Font;
+import org.joge.core.draw.Color;
+import org.joge.core.draw.Graphics;
+import org.joge.core.draw.font.Font;
 import org.joge.game.sprite.Sprite;
 import static org.lwjgl.input.Keyboard.*;
 
@@ -35,6 +35,7 @@ public class SimpleGame extends Game
     
     private Font font;
     private Sprite sp= null;
+    private long time=0;
 
     /**
      * @param args the command line arguments
@@ -56,30 +57,34 @@ public class SimpleGame extends Game
     @Override
     protected void run(long elapsedTime)
     {
+        time = elapsedTime;
         if (isKeyDown(KEY_LEFT))
         {
-            xG -= 4;
+            xG -= 0.1*time;
         }
 
         if (isKeyDown(KEY_RIGHT))
         {
-            xG += 4;
+            xG += 0.1*time;
         }
 
         if (isKeyDown(KEY_UP))
         {
-            yG -= 4;
+            yG -= 0.1*time;
         }
 
         if (isKeyDown(KEY_DOWN))
         {
-            yG += 4;
+            yG += 0.1*time;
         }
 
         if (isKeyDown(KEY_ESCAPE))
         {
             end();
         }
+        sp.setX(xG);
+        sp.setY(yG);
+        
     }
     
     
@@ -90,8 +95,8 @@ public class SimpleGame extends Game
         g.setColor(Color.BLUE);
         sp.render(g);
         String msg = "FPS: "+this.getFPS()+ "x: "+xG+" y:"+ yG;
-        g.drawString(msg, font,xG, yG);
+        g.drawString(msg, font,10, 550);
         
-        g.drawString("A", font, 200, 200);
+        g.drawString("time: "+time, font, 200, 200);
     }
 }

@@ -15,9 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.draw;
+package org.joge.core.draw;
 
-import org.joge.draw.font.Font;
+import org.joge.core.draw.font.Font;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.glCallList;
 import static org.lwjgl.opengl.GL11.glTranslatef;

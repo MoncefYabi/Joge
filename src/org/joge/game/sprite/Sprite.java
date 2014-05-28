@@ -17,9 +17,9 @@
  */
 package org.joge.game.sprite;
 
-import org.joge.draw.Graphics;
-import org.joge.draw.Image;
-import org.joge.math.Rectangle;
+import org.joge.core.draw.Graphics;
+import org.joge.core.draw.Image;
+import org.joge.core.math.Rectangle;
 
 /**
  * @author Moncef YABI

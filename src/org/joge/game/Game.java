@@ -19,7 +19,7 @@ package org.joge.game;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.joge.draw.Graphics;
+import org.joge.core.draw.Graphics;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;

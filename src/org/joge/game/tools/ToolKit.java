@@ -20,8 +20,8 @@ package org.joge.game.tools;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.joge.draw.texture.Texture;
-import org.joge.draw.texture.TextureLoader;
+import org.joge.core.draw.texture.Texture;
+import org.joge.core.draw.texture.TextureLoader;
 
 /**
  *

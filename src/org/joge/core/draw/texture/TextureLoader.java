@@ -1,4 +1,4 @@
-package org.joge.draw.texture;
+package org.joge.core.draw.texture;
 
 /**
  * A utility class to load textures for JOGL. This source is based on a texture
