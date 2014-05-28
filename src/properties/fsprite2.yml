@@ -1,0 +1,15 @@
+---
+name: UFO
+type: building
+imageurl: images/bosRo.gif
+spritecountX: 7
+spritecountY: 1
+delay: 10
+x: 200
+y: 100
+activeAnimationName: 1
+frames:
+ - name: 1
+   count: 7
+   loop: true
+animationKeys: [1,1]

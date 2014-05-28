@@ -27,11 +27,18 @@ import org.joge.core.math.Rectangle;
 public class Sprite implements ISprite
 {
 
-    private Image spriteImage;
-    private float x = 0;
-    private float y = 0;
-    private final Rectangle me = new Rectangle();
-    private final Rectangle him = new Rectangle();
+    protected Image spriteImage;
+    protected float x = 0;
+    protected float y = 0;
+    protected Rectangle me = new Rectangle();
+    protected Rectangle him = new Rectangle();
+    protected String name;
+    protected String imageurl;
+    protected String type;
+
+    public Sprite()
+    {
+    }
 
     public Sprite(String ref)
     {
@@ -39,6 +46,11 @@ public class Sprite implements ISprite
     }
 
     public Sprite(String ref, float x, float y)
+    {
+        initSprite(ref, x, y);
+    }
+
+    public final void initSprite(String ref, float x, float y)
     {
         spriteImage = new Image(ref);
         this.x = x;
@@ -112,22 +124,41 @@ public class Sprite implements ISprite
         return spriteImage.getWidth() - (spriteImage.getWidth() / 11);
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getImageurl()
+    {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl)
+    {
+        this.imageurl = imageurl;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
     @Override
-    public boolean collide(ISprite oder)
+    public boolean collide(Sprite oder)
     {
         me.setBounds(x, y, getWidth(), getHeight());
         him.setBounds(oder.getX(), oder.getY(), oder.getWidth(), oder.getHeight());
         return me.intersects(him);
-    }
-
-    @Override
-    public void setFrame(int i, int j, int k, boolean loop)
-    {
-    }
-
-    @Override
-    public int getSpriteArte()
-    {
-        return ISprite.SPRITE_2D;
     }
 }

@@ -15,42 +15,46 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.game.sprite;
-
-import org.joge.core.draw.Graphics;
+package org.joge.game.animation;
 
 /**
  *
  * @author Moncef YABI
  */
-public interface ISprite
+public class Frame
 {
 
-    public static int SPRITE_2D = 1;
-    public static int SPRITE_ANIMATION = 2;
+    private String name;
+    private int count;
+    private boolean loop;
 
-    public float getX();
+    public int getCount()
+    {
+        return count;
+    }
 
-    public float getY();
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
 
-    public void setX(float x);
+    public String getName()
+    {
+        return name;
+    }
 
-    public void setY(float y);
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-    public void moveX(float speed);
+    public boolean isLoop()
+    {
+        return loop;
+    }
 
-    public void moveY(float speed);
-
-    public boolean collide(Sprite oder);
-
-    public void render(Graphics g, float x_pos, float y_pos);
-
-    public void render(Graphics g);
-
-    public float getWidth();
-
-    public float getHeight();
-
-    public void setPoint(float x, float y);
-
+    public void setLoop(boolean loop)
+    {
+        this.loop = loop;
+    }
 }

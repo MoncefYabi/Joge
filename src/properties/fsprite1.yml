@@ -1,0 +1,24 @@
+---
+name: advanced-power-plant
+type: building
+imageurl: images/advanced-power-plant-sprite-sheet.png
+spritecountX: 29
+spritecountY: 1
+delay: 10
+x: 100
+y: 100
+activeAnimationName: build
+frames:
+ - name: build
+   count: 20
+   loop: false
+ - name: damaged
+   count: 4
+   loop: true
+ - name: healthy
+   count: 4
+   loop: true
+ - name: ultra-damaged
+   count: 1
+   loop: false
+animationKeys: [1,3]

@@ -20,9 +20,11 @@ package org.joge.game.test;
 import org.joge.game.Game;
 import org.joge.core.draw.Color;
 import org.joge.core.draw.Graphics;
+import org.joge.core.draw.Image;
 import org.joge.core.draw.font.Font;
+import org.joge.game.sprite.FSprite;
 import org.joge.game.sprite.Sprite;
-import static org.lwjgl.input.Keyboard.*;
+import org.joge.game.tools.ToolKit;
 
 /**
  *
@@ -32,10 +34,14 @@ public class SimpleGame extends Game
 {
 
     private float xG = 0, yG = 0;
-    
+
     private Font font;
-    private Sprite sp= null;
-    private long time=0;
+    private Sprite sp = null;
+    private long time = 0;
+    private FSprite bilding = null;
+    private FSprite enemy = null;
+    private Image bib3 = null;
+    private Sprite sprite;
 
     /**
      * @param args the command line arguments
@@ -51,52 +57,30 @@ public class SimpleGame extends Game
     {
         sp = new Sprite("images/boss.gif");
         font = new Font(new java.awt.Font("Verdana", java.awt.Font.BOLD, 14), true);
-   
+        bilding = ToolKit.loadFSprit("properties/fsprite1.yml");
+        enemy = ToolKit.loadFSprit("properties/fsprite2.yml");
+        bib3 = new Image("images/bib-3.gif");
+
     }
 
     @Override
     protected void run(long elapsedTime)
     {
-        time = elapsedTime;
-        if (isKeyDown(KEY_LEFT))
-        {
-            xG -= 0.1*time;
-        }
 
-        if (isKeyDown(KEY_RIGHT))
-        {
-            xG += 0.1*time;
-        }
-
-        if (isKeyDown(KEY_UP))
-        {
-            yG -= 0.1*time;
-        }
-
-        if (isKeyDown(KEY_DOWN))
-        {
-            yG += 0.1*time;
-        }
-
-        if (isKeyDown(KEY_ESCAPE))
-        {
-            end();
-        }
-        sp.setX(xG);
-        sp.setY(yG);
-        
     }
-    
-    
+
     @Override
     public void render(Graphics g)
     {
         this.clearScreen();
-        g.setColor(Color.BLUE);
+        g.setBackground(Color.LIGHT_GREEN);
+
+      
+
+        bilding.render(g);
+        enemy.render(g);
         sp.render(g);
-        String msg = "FPS: "+this.getFPS()+ "x: "+xG+" y:"+ yG;
-        g.drawString(msg, font,10, 550);
-        
-        g.drawString("time: "+time, font, 200, 200);
+        String msg = "FPS: " + this.getFPS() + "x: " + xG + " y:" + yG;
+        g.drawString(msg, font, 10, 550);
     }
 }
