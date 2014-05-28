@@ -8,10 +8,14 @@ This github website is a port form the old Joge website "joge.sf.net".
 Video Tutorial
 ====
 See Joge on [Youtube](https://www.youtube.com/channel/UCsS0EcVLn3K0U9hvLHTUbDg)
+
 Wiki!
 ====
 See documentation [here](https://github.com/MoncefYabi/Joge/wiki)
 
+Old Web site
+====
+See [joge.sf.net](http://joge.sf.net)
 
 Why java?
 ====
