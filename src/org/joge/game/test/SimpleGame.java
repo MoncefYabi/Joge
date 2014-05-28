@@ -17,11 +17,12 @@
  */
 package org.joge.game.test;
 
+import java.util.ArrayList;
 import org.joge.game.Game;
 import org.joge.core.draw.Color;
 import org.joge.core.draw.Graphics;
-import org.joge.core.draw.Image;
 import org.joge.core.draw.font.Font;
+import org.joge.core.sound.JogMedia;
 import org.joge.game.sprite.FSprite;
 import org.joge.game.sprite.Sprite;
 import org.joge.core.tools.ToolKit;
@@ -33,15 +34,11 @@ import org.joge.core.tools.ToolKit;
 public class SimpleGame extends Game
 {
 
-    private float xG = 0, yG = 0;
 
     private Font font;
     private Sprite sp = null;
-    private long time = 0;
     private FSprite bilding = null;
     private FSprite enemy = null;
-    private Image bib3 = null;
-    private Sprite sprite;
 
     /**
      * @param args the command line arguments
@@ -59,7 +56,11 @@ public class SimpleGame extends Game
         font = new Font(new java.awt.Font("Verdana", java.awt.Font.BOLD, 14), true);
         bilding = ToolKit.loadFSprit("properties/fsprite1.yml");
         enemy = ToolKit.loadFSprit("properties/fsprite2.yml");
-        bib3 = new Image("images/bib-3.gif");
+        
+        JogMedia media= new JogMedia("data/Battle.wav");
+        media.playEffect(false);
+        JogMedia media2= new JogMedia("data/Dee.ogg");
+        media2.playMusic(false);
 
     }
 
@@ -79,7 +80,7 @@ public class SimpleGame extends Game
         enemy.render(g);
         sp.render(g);
         g.setColor(Color.BLUE);
-        String msg = "FPS: " + this.getFPS() + "x: " + xG + " y:" + yG;
+        String msg = "FPS: " + this.getFPS();
         g.drawString(msg, font, 10, 550);
     }
 }

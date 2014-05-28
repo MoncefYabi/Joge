@@ -23,6 +23,8 @@ import org.joge.core.draw.Graphics;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -52,7 +54,14 @@ public abstract class Game
             Display.create();
             Display.setTitle(title);
             initGL(width, height);
+             //Keyboard
+            Keyboard.create();
 
+            //Mouse
+            Mouse.setGrabbed(false);
+            Mouse.create();
+            //Sound
+            
             g = new Graphics();
             // Start the game
             gameLoop();
@@ -256,7 +265,10 @@ public abstract class Game
     public void end()
     {
         this.dispose();
+        Mouse.destroy();
+        Keyboard.destroy();
         Display.destroy();
+        AL.destroy();
         System.exit(0);
     }
 
