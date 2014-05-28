@@ -75,11 +75,10 @@ public class SimpleGame extends Game
         this.clearScreen();
         g.setBackground(Color.LIGHT_GREEN);
 
-      
-
         bilding.render(g);
         enemy.render(g);
         sp.render(g);
+        g.setColor(Color.BLUE);
         String msg = "FPS: " + this.getFPS() + "x: " + xG + " y:" + yG;
         g.drawString(msg, font, 10, 550);
     }

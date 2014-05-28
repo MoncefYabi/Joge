@@ -38,6 +38,12 @@ public class Image
     private float tOffsetX = 0;
     private float tOffsetY = 0;
     private String ref;
+    private int tw;
+    private int th;
+    private  int margin = 0;
+    private Image[][] subImages;
+    private int spacing;
+    protected float alpha = 1.0f;
 
     public Image()
     {
@@ -63,6 +69,23 @@ public class Image
         }
     }
 
+    public Image(Image img, int tw, int th, int margin, int spacing)
+    {
+        texture = img.getTexture();
+        this.tw = tw;
+        this.th = th;
+        this.spacing = spacing;
+        this.margin = margin;
+        if (texture != null)
+        {
+            width = texture.getImageWidth();
+            height = texture.getImageHeight();
+            tWidth = texture.getWidth();
+            tHeight = texture.getHeight();
+        }
+        initImpl();
+    }
+
     public void draw(float xpos, float ypos)
     {
         texture.bind();
@@ -76,6 +99,7 @@ public class Image
         GL11.glColor3f(col.r, col.g, col.b);
         drawGL(xpos, ypos);
     }
+
     public void drawWithOutLoadIdentity(float xpos, float ypos)
     {
         GL11.glTranslatef(x + xpos, y + ypos, 0);
@@ -149,4 +173,96 @@ public class Image
     {
         this.texture = texture;
     }
+
+    public float getX()
+    {
+        return x;
+    }
+
+    public void setX(float x)
+    {
+        this.x = x;
+    }
+
+    public float getY()
+    {
+        return y;
+    }
+
+    public void setY(float y)
+    {
+        this.y = y;
+    }
+
+    protected final void initImpl()
+    {
+        if (subImages != null)
+        {
+            return;
+        }
+
+        int tilesAcross = ((getWidth() - (margin * 2) - tw) / (tw + spacing)) + 1;
+        int tilesDown = ((getHeight() - (margin * 2) - th) / (th + spacing)) + 1;
+        if ((getHeight() - th) % (th + spacing) != 0)
+        {
+            tilesDown++;
+        }
+
+        subImages = new Image[tilesAcross][tilesDown];
+        for (int i = 0; i < tilesAcross; i++)
+        {
+            for (int j = 0; j < tilesDown; j++)
+            {
+                subImages[i][j] = getSprite(i, j);
+            }
+        }
+    }
+
+    public int getHorizontalCount()
+    {
+        initImpl();
+
+        return subImages.length;
+    }
+
+    public int getVerticalCount()
+    {
+        initImpl();
+
+        return subImages[0].length;
+    }
+
+    public Image getSprite(int x, int y)
+    {
+        initImpl();
+
+        if ((x < 0) || (x >= subImages.length))
+        {
+            throw new RuntimeException("SubImage out of sheet bounds: " + x + "," + y);
+        }
+        if ((y < 0) || (y >= subImages[0].length))
+        {
+            throw new RuntimeException("SubImage out of sheet bounds: " + x + "," + y);
+        }
+
+        return getSubImage(x * (tw + spacing) + margin, y * (th + spacing) + margin, tw, th);
+    }
+
+    public float getAlpha()
+    {
+        return alpha;
+    }
+
+    public void setAlpha(float alpha)
+    {
+        this.alpha = alpha;
+    }
+
+    public void drawSubImages(int i, int i0, int sheetX, int sheetY)
+    {
+//        inUse.bind();
+        bindColor();
+        subImages[sheetX][sheetY].draw(i, i0);
+    }
+
 }

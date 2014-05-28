@@ -121,8 +121,37 @@ public class Color
         return new Color(this.r, this.g, this.b, this.a);
     }
 
+    public Color(int value)
+    {
+        int r = (value & 0x00FF0000) >> 16;
+        int g = (value & 0x0000FF00) >> 8;
+        int b = (value & 0x000000FF);
+        int a = (value & 0xFF000000) >> 24;
+
+        if (a < 0)
+        {
+            a += 256;
+        }
+        if (a == 0)
+        {
+            a = 255;
+        }
+
+        this.r = r / 255.0f;
+        this.g = g / 255.0f;
+        this.b = b / 255.0f;
+        this.a = a / 255.0f;
+    }
+
+
     public void bind()
     {
         GL11.glColor4f(r, g, b, a);
     }
+
+    public static Color decode(String nm)
+    {
+        return new Color(Integer.decode(nm).intValue());
+    }
+
 }

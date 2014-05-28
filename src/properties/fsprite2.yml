@@ -4,7 +4,7 @@ type: building
 imageurl: images/bosRo.gif
 spritecountX: 7
 spritecountY: 1
-delay: 10
+delay: 5
 x: 200
 y: 100
 activeAnimationName: 1
