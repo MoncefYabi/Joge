@@ -158,6 +158,7 @@ public class TileSet
         if (loadImage)
         {
             imageref = map.getTilesLocation() + "/" + ref;
+            System.out.println(imageref);
             Image image = new Image(map.getTilesLocation() + "/" + ref);
             setTileSetImage(image);
         }

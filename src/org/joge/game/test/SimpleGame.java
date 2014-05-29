@@ -17,14 +17,14 @@
  */
 package org.joge.game.test;
 
-import java.util.ArrayList;
 import org.joge.game.Game;
 import org.joge.core.draw.Color;
 import org.joge.core.draw.Graphics;
+import org.joge.core.draw.Image;
 import org.joge.core.draw.font.Font;
-import org.joge.core.sound.JogMedia;
+import org.joge.core.draw.tilemap.TiledMap;
+import org.joge.core.input.JKeyboard;
 import org.joge.game.sprite.FSprite;
-import org.joge.game.sprite.Sprite;
 import org.joge.core.tools.ToolKit;
 
 /**
@@ -34,11 +34,10 @@ import org.joge.core.tools.ToolKit;
 public class SimpleGame extends Game
 {
 
-
     private Font font;
-    private Sprite sp = null;
-    private FSprite bilding = null;
-    private FSprite enemy = null;
+    private FSprite personne = null;
+    private TiledMap map;
+    private Image image;
 
     /**
      * @param args the command line arguments
@@ -46,41 +45,63 @@ public class SimpleGame extends Game
     public static void main(String[] args)
     {
         SimpleGame run = new SimpleGame();
-        run.start(800, 600, false, "My Game");
+        run.start(640, 640, false, "My Game");
     }
 
     @Override
     protected void init()
     {
-        sp = new Sprite("images/boss.gif");
         font = new Font(new java.awt.Font("Verdana", java.awt.Font.BOLD, 14), true);
-        bilding = ToolKit.loadFSprit("properties/fsprite1.yml");
-        enemy = ToolKit.loadFSprit("properties/fsprite2.yml");
-        
-        JogMedia media= new JogMedia("data/Battle.wav");
-        media.playEffect(false);
-        JogMedia media2= new JogMedia("data/Dee.ogg");
-        media2.playMusic(false);
 
+        personne = ToolKit.loadFSprit("properties/fsprite2.yml");
+        map = new TiledMap("tile/level1.tmx");
+
+//        JogMedia media2= new JogMedia("data/Kevtech.ogg");
+//        media2.playMusic(false);
     }
 
     @Override
     protected void run(long elapsedTime)
     {
-
+        float t = 0.07f * elapsedTime;
+        if (JKeyboard.isKeyDown(JKeyboard.KEY_UP))
+        {
+            personne.moveY(-t);
+            
+            personne.setActiveAnimation("1");
+            personne.getActiveAnimation().setLoop(true);
+        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_DOWN))
+        {
+            personne.moveY(t);
+            personne.setActiveAnimation("2");
+            personne.getActiveAnimation().setLoop(true);
+        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_LEFT))
+        {
+            personne.moveX(-t);
+            personne.setActiveAnimation("3");
+            personne.getActiveAnimation().setLoop(true);
+        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_RIGHT))
+        {
+            personne.moveX(t);
+            personne.setActiveAnimation("4");
+            personne.getActiveAnimation().setLoop(true);
+        } else
+        {
+            personne.getActiveAnimation().setStoped(true);
+            personne.getActiveAnimation().setLoop(false);
+        }
     }
 
     @Override
     public void render(Graphics g)
     {
         this.clearScreen();
-        g.setBackground(Color.LIGHT_GREEN);
+        map.render(0, 0);
+        personne.render(g);
 
-        bilding.render(g);
-        enemy.render(g);
-        sp.render(g);
         g.setColor(Color.BLUE);
         String msg = "FPS: " + this.getFPS();
         g.drawString(msg, font, 10, 550);
+
     }
 }

@@ -85,14 +85,21 @@ public class FSprite extends Sprite
     public void moveX(float speed)
     {
         super.moveX(speed);
-        this.activeAnimation.setXpos(x);
+        for (AnimationSprite anim : animationframes)
+        {
+            anim.setXpos(x);
+        }
+        
     }
 
     @Override
     public void moveY(float speed)
     {
         super.moveY(speed);
-        this.activeAnimation.setYpos(y);
+        for (AnimationSprite anim : animationframes)
+        {
+            anim.setYpos(y);
+        }
     }
 
     @Override

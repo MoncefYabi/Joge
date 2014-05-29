@@ -99,7 +99,7 @@ public abstract class Game
 
             }
 
-            Display.sync(60);
+            Display.sync(70);
 
             lastFrame = thisFrame;
         }

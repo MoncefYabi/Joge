@@ -12,7 +12,10 @@ package org.joge.core.draw.texture;
  *
  * @author Kevin Glass
  * @author Brian Matzon
+ * @author Moncef Yabi
  */
+import de.matthiasmann.twl.utils.PNGDecoder;
+import de.matthiasmann.twl.utils.PNGDecoder.Format;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.color.ColorSpace;
@@ -25,6 +28,7 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -34,6 +38,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class TextureLoader
 {
@@ -139,7 +144,6 @@ public class TextureLoader
             int minFilter,
             int magFilter) throws IOException
     {
-        int srcPixelFormat = 0;
 
         // create the texture ID for this texture 
         int textureID = createTextureID();
@@ -196,7 +200,6 @@ public class TextureLoader
             int minFilter,
             int magFilter) throws IOException
     {
-        int srcPixelFormat = 0;
 
         // create the texture ID for this texture 
         int textureID = createTextureID();
@@ -262,11 +265,11 @@ public class TextureLoader
         if (bufferedImage.getColorModel().hasAlpha())
         {
             raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, texWidth, texHeight, 4, null);
-            texImage = new BufferedImage(glAlphaColorModel, raster, false, new Hashtable<Object, Object>());
+            texImage = new BufferedImage(glAlphaColorModel, raster, false, new Hashtable<>());
         } else
         {
             raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, texWidth, texHeight, 3, null);
-            texImage = new BufferedImage(glColorModel, raster, false, new Hashtable<Object, Object>());
+            texImage = new BufferedImage(glColorModel, raster, false, new Hashtable<>());
         }
 
         // copy the source image into the produced image
@@ -306,6 +309,27 @@ public class TextureLoader
         BufferedImage bufferedImage = ImageIO.read(new BufferedInputStream(getClass().getClassLoader().getResourceAsStream(ref)));
 
         return bufferedImage;
+    }
+
+    /**
+     * Load a given resource as a InputStream image
+     *
+     * @param ref The location of the resource to load
+     * @return The loaded buffered image
+     * @throws IOException Indicates a failure to find a resource
+     */
+    private InputStream loadImageAsStream(String ref) throws IOException
+    {
+        URL url = TextureLoader.class.getClassLoader().getResource(ref);
+
+        if (url == null)
+        {
+            throw new IOException("Cannot find: " + ref);
+        }
+
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(ref);
+
+        return inputStream;
     }
 
     /**
