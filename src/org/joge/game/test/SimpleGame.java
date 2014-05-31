@@ -37,7 +37,9 @@ public class SimpleGame extends Game
     private Font font;
     private FSprite personne = null;
     private TiledMap map;
-    private Image image;
+    private boolean[][] allowed;
+    private int x, y;
+    private final int SIZE=16;
 
     /**
      * @param args the command line arguments
@@ -55,41 +57,70 @@ public class SimpleGame extends Game
 
         personne = ToolKit.loadFSprit("properties/fsprite2.yml");
         map = new TiledMap("tile/level1.tmx");
+        int layerIndex = map.getLayerIndex("Wege");
 
-//        JogMedia media2= new JogMedia("data/Kevtech.ogg");
-//        media2.playMusic(false);
+        allowed = new boolean[map.getWidth()][map.getHeight()];
+        for (int xAxis = 0; xAxis < map.getWidth(); xAxis++)
+        {
+            for (int yAxis = 0; yAxis < map.getHeight(); yAxis++)
+            {
+                int tileID = map.getTileId(xAxis, yAxis, layerIndex);
+                allowed[xAxis][yAxis] = (tileID != 0);
+
+            }
+        }
     }
 
     @Override
     protected void run(long elapsedTime)
     {
-        float t = 0.07f * elapsedTime;
+        float speed = 0.07f * elapsedTime;
+
         if (JKeyboard.isKeyDown(JKeyboard.KEY_UP))
         {
-            personne.moveY(-t);
-            
-            personne.setActiveAnimation("1");
+            if (isAllowed(x, y-speed))
+            {
+                personne.moveY(-speed);
+            }
+
+            personne.setActiveAnimation("up");
             personne.getActiveAnimation().setLoop(true);
         } else if (JKeyboard.isKeyDown(JKeyboard.KEY_DOWN))
         {
-            personne.moveY(t);
-            personne.setActiveAnimation("2");
+            if (isAllowed(x, y+SIZE+speed))
+            {
+                personne.moveY(speed);
+            }
+             
+            personne.setActiveAnimation("down");
             personne.getActiveAnimation().setLoop(true);
         } else if (JKeyboard.isKeyDown(JKeyboard.KEY_LEFT))
         {
-            personne.moveX(-t);
-            personne.setActiveAnimation("3");
+            if (isAllowed(x-speed, y))
+            {
+                personne.moveX(-speed);
+            }
+            personne.setActiveAnimation("right");
             personne.getActiveAnimation().setLoop(true);
         } else if (JKeyboard.isKeyDown(JKeyboard.KEY_RIGHT))
         {
-            personne.moveX(t);
-            personne.setActiveAnimation("4");
+            if (isAllowed(x+SIZE+speed, y))
+            {
+                personne.moveX(speed);
+            }
+            personne.setActiveAnimation("left");
             personne.getActiveAnimation().setLoop(true);
         } else
         {
             personne.getActiveAnimation().setStoped(true);
             personne.getActiveAnimation().setLoop(false);
         }
+        
+        
+        x = (int) personne.getActiveAnimation().getXpos();
+        y = (int) personne.getActiveAnimation().getYpos();
+        x = x >= 0 && x < 640 ? x : -1;
+        y = y >= 0 && y < 640 ? y : -1;
     }
 
     @Override
@@ -102,6 +133,19 @@ public class SimpleGame extends Game
         g.setColor(Color.BLUE);
         String msg = "FPS: " + this.getFPS();
         g.drawString(msg, font, 10, 550);
+        g.drawString("isAllowed " + isAllowed(x, y), font, 10, 530);
+        g.drawString("x: " + x + " y: " + y, font, 10, 500);
 
+    }
+
+    private boolean isAllowed(float x, float y)
+    {
+        if (x == -1 || y == -1)
+        {
+            return false;
+        }
+        int xBlock = (int) x / SIZE;
+        int yBlock = (int) y / SIZE;
+        return allowed[xBlock][yBlock];
     }
 }

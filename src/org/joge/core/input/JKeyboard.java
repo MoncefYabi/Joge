@@ -1,14 +1,30 @@
+/*
+ * Copyright (C) 2014 Moncef YABI
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package org.joge.core.input;
 
 import java.util.Arrays;
-
 
 import org.lwjgl.input.Keyboard;
 
 /**
  * Klasse JKeyboard behandelt alle an sie gesendete Tastaure-Events
  *
- * @author Yabi
+ * @author Moncef YABI
  */
 public class JKeyboard
 {
@@ -193,16 +209,12 @@ public class JKeyboard
     public static final int KEY_SLEEP = 0xDF;
     public static final int KEY_LALT = KEY_LMENU;
     public static final int KEY_RALT = KEY_RMENU;
-    private static JDisplay disp = new JDisplay();
-    private static char[] keyBoradKeys = new char[1024];
-    private static boolean[] keyPressed = new boolean[1024];
-    private static long[] nextKeyRepeat = new long[1024];
-    private static long delay = 200;
+    private static final char[] keyBoradKeys = new char[1024];
+    private static final boolean[] keyPressed = new boolean[1024];
+    private static final long[] nextKeyRepeat = new long[1024];
+    private static final long delay = 200;
 
-    public static JDisplay getJDisplay()
-    {
-        return disp;
-    }
+
 
     public static void fireKeyboard()
     {
@@ -216,11 +228,11 @@ public class JKeyboard
                 nextKeyRepeat[Keyboard.getEventKey()] = System
                         .currentTimeMillis()
                         + getDelay();
-                disp.fireKeyPressedEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter());
+                JHID.getjHID().fireKeyPressedEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter());
             } else
             {
                 nextKeyRepeat[Keyboard.getEventKey()] = 0;
-                disp.firekeyReleased(Keyboard.getEventKey(), keyBoradKeys[Keyboard.getEventKey()]);
+                JHID.getjHID().firekeyReleased(Keyboard.getEventKey(), keyBoradKeys[Keyboard.getEventKey()]);
             }
         }
         for (int i = 0; i < 1024; i++)
@@ -230,7 +242,7 @@ public class JKeyboard
                 if (System.currentTimeMillis() > nextKeyRepeat[i])
                 {
                     nextKeyRepeat[i] = System.currentTimeMillis() + getDelay();
-                    disp.firekeyLongPressed(i, keyBoradKeys[i]);
+                    JHID.getjHID().firekeyLongPressed(i, keyBoradKeys[i]);
                 }
             }
         }

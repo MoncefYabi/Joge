@@ -1,8 +1,30 @@
+/*
+ * Copyright (C) 2014 Moncef YABI
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package org.joge.core.input;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+/**
+ * Klasse JKeyboard behandelt alle an sie gesendete Tastaure-Events
+ *
+ * @author Moncef YABI
+ */
 public class JMouse
 {
 
@@ -12,18 +34,12 @@ public class JMouse
     private static int _height;
     private static boolean displayActive = true;
     private static boolean[] mousePressed = new boolean[10];
-    private static JDisplay disp = new JDisplay();
 
     public static void init(int height)
     {
         _height = height;
         lastX_Pos = getMouseX();
         lastY_Pos = getMouseY();
-    }
-
-    public static JDisplay getDisplay()
-    {
-        return disp;
     }
 
     public static void setCursors(boolean visible)
@@ -50,13 +66,13 @@ public class JMouse
                 if (Mouse.getEventButtonState())
                 {
                     mousePressed[Mouse.getEventButton()] = true;
-                    disp.fireMousePressedEvent(Mouse.getEventX(),
+                    JHID.getjHID().fireMousePressedEvent(Mouse.getEventX(),
                             _height - Mouse.getEventY(), Mouse
                             .getEventButton());
                 } else
                 {
                     mousePressed[Mouse.getEventButton()] = false;
-                    disp.fireMouseReleasedEvent(Mouse.getEventX(),
+                    JHID.getjHID().fireMouseReleasedEvent(Mouse.getEventX(),
                             _height - Mouse.getEventY(), Mouse
                             .getEventButton());
                 }
@@ -74,7 +90,7 @@ public class JMouse
                 wheel += dwheel;
                 if (dwheel != 0)
                 {
-                    disp.fireMouseWheel(Mouse.getX(), Mouse.getY(), dwheel > 0, 1);
+                    JHID.getjHID().fireMouseWheel(Mouse.getX(), Mouse.getY(), dwheel > 0, 1);
                 }
             }
         }
@@ -86,7 +102,7 @@ public class JMouse
         {
             if ((lastX_Pos != getMouseX()) || (lastY_Pos != getMouseY()))
             {
-                disp.fireMouseMovedEvent(getMouseX(), getMouseY());
+                JHID.getjHID().fireMouseMovedEvent(getMouseX(), getMouseY());
                 lastX_Pos = getMouseX();
                 lastY_Pos = getMouseY();
             }

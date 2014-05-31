@@ -284,6 +284,11 @@ public class TileSet
         return (Properties) tileProperties.get(new Integer(globalID));
     }
 
+    public HashMap<Integer, Properties> getProperties()
+    {
+        return tileProperties;
+    }
+    
     /**
      * Get the x position of a tile on this sheet
      *
