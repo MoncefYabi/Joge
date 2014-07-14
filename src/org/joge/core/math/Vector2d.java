@@ -27,6 +27,14 @@ public class Vector2d
     private double x;
     private double y;
 
+    public Vector2d(double x, double y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    
+    
+
     public double getX()
     {
         return x;
@@ -46,10 +54,20 @@ public class Vector2d
     {
         this.y = y;
     }
+    
+    public Vector2d min(Vector2d v)
+    {
+        return new Vector2d(this.x-v.x, this.y-v.y);
+    }
 
     public double vec2dLength(Vector2d v)
     {
         return Math.sqrt(v.x * v.x + v.y * v.y);
+    }
+    
+    public double vec2dLength(double x1,double y1,double x2,double y2)
+    {
+        return Math.sqrt(x1 * x2 + y1 * y2);
     }
 
 //------------------------- Vec2DNormalize -----------------------------

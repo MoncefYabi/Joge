@@ -162,7 +162,7 @@ public class Fish extends Sprite
 
     public static double angleToFood(Fish fish, Food food)
     {
-        Vector2d v1 = new Vector2d(), v2 = new Vector2d();
+        Vector2d v1 = new Vector2d(0,0), v2 = new Vector2d(0,0);
         v1.setX(food.x - fish.getX());
         v1.setY(food.y - fish.getY());
         v2.setX(Math.cos(fish.orientation));
