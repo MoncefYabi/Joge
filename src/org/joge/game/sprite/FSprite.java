@@ -89,7 +89,7 @@ public class FSprite extends Sprite
         {
             anim.setXpos(x);
         }
-        
+
     }
 
     @Override

@@ -1,0 +1,5 @@
+[06.07.2014 13:18:52,268] [main] INFO  org.jgap.gp.impl.GPGenotype  - Creating initial population
+[06.07.2014 13:18:52,354] [main] INFO  org.jgap.gp.impl.GPGenotype  - Mem free: 15.5 MB
+[06.07.2014 13:18:52,366] [main] INFO  org.jgap.gp.impl.GPPopulation  - Prototype program set
+[06.07.2014 13:18:52,416] [main] INFO  org.jgap.gp.impl.GPGenotype  - Mem free after creating population: 15.5 MB
+[06.07.2014 13:18:52,420] [main] INFO  org.jgap.gp.impl.GPGenotype  - Your configuration does not contain unused commands, this is good

@@ -19,8 +19,6 @@ package org.joge.core.draw;
 
 import org.joge.core.draw.font.Font;
 import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL11.glCallList;
-import static org.lwjgl.opengl.GL11.glTranslatef;
 
 /**
  *
@@ -32,12 +30,24 @@ public class Graphics
     private boolean pushed;
     private final double PI = Math.PI;
     private Color color = Color.white;
-//	private SFont string;
+    private Font font;
+    
 
     public Graphics()
     {
     }
 
+    public Font getFont()
+    {
+        return font;
+    }
+
+    public void setFont(Font font)
+    {
+        this.font = font;
+    }
+
+    
     private void setColor()
     {
         GL11.glColor4f(color.r, color.g, color.b, color.a);
@@ -123,7 +133,7 @@ public class Graphics
         }
     }
 
-    public void drawString(String text, Font font, float xpos, float ypos)
+    public void drawString(String text, float xpos, float ypos)
     {
         setColor();
         font.render(text, color, xpos, ypos);
@@ -206,14 +216,14 @@ public class Graphics
         enableGl();
     }
 
-    public void drawTriangle(int x, int y, int x1, int y1, int x2, int y2)
+    public void drawTriangle(float x, float y, float x1, float y1, float x2, float y2)
     {
         drawLine(x, y, x1, y1);
         drawLine(x1, y1, x2, y2);
         drawLine(x2, x2, x, y);
     }
 
-    public void fillTriangle(int x, int y, int x1, int y1, int x2, int y2)
+    public void fillTriangle(float x, float y, float x1, float y1, float x2, float y2)
     {
         setColor();
         disableGl();

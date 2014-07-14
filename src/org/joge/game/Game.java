@@ -20,6 +20,7 @@ package org.joge.game;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.joge.core.draw.Graphics;
+import org.joge.core.draw.font.Font;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -42,7 +43,7 @@ public abstract class Game
     private int fps;
     public float frameInterval = 0.0f;
     private Graphics g;
-
+    private Font font;
     /**
      * Initialize the game
      */
@@ -54,14 +55,14 @@ public abstract class Game
             Display.create();
             Display.setTitle(title);
             initGL(width, height);
-             //Keyboard
+            //Keyboard
             Keyboard.create();
 
             //Mouse
             Mouse.setGrabbed(false);
             Mouse.create();
             //Sound
-            
+
             g = new Graphics();
             // Start the game
             gameLoop();
@@ -71,17 +72,16 @@ public abstract class Game
             System.exit(-1); // There is no point in running without hardware acceleration right?
         }
 
-
     }
 
     // The gameloop. Runs at 60 fps
     private void gameLoop()
     {
         long lastFrame = getCurrentTime();
-        long thisFrame = getCurrentTime();
+        long thisFrame ;
 
         init();
-
+        g.setFont(font);
         while (!Display.isCloseRequested())
         {
             clearScreen();
@@ -99,7 +99,7 @@ public abstract class Game
 
             }
 
-            Display.sync(70);
+            Display.sync(60);
 
             lastFrame = thisFrame;
         }
@@ -241,7 +241,6 @@ public abstract class Game
 
             System.out.println("Selected DisplayMode: " + targetDisplayMode.toString());
 
-
             return true;
         } catch (LWJGLException ex)
         {
@@ -303,8 +302,6 @@ public abstract class Game
         glOrtho(0, width, height, 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
 
-
-
     }
 
     protected void clearScreen()
@@ -316,5 +313,10 @@ public abstract class Game
     public int getFPS()
     {
         return recordedFPS;
+    }
+
+    public void setFont(Font font)
+    {
+        this.font = font;
     }
 }

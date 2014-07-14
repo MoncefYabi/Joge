@@ -32,6 +32,7 @@ import org.joge.core.draw.Image;
 import org.joge.core.draw.texture.Texture;
 import org.joge.core.draw.texture.TextureLoader;
 import org.joge.game.animation.Frame;
+import org.joge.game.sprite.ControlledFSprite;
 import org.joge.game.sprite.FSprite;
 
 
@@ -104,6 +105,25 @@ public abstract class ToolKit
             reader.getConfig().setPropertyElementType(FSprite.class, "frames", Frame.class);
             reader.getConfig().setPropertyElementType(FSprite.class, "animationKeys", Integer.class);
             animation = (FSprite) reader.read(FSprite.class);
+
+            animation.init();
+
+        } catch (YamlException | FileNotFoundException ex)
+        {
+            Logger.getLogger(ToolKit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return animation;
+    }
+    public static  ControlledFSprite loadControlledFSprite(String ref)
+    {
+         ControlledFSprite animation = null;
+        try
+        {
+            URL url = ToolKit.getResource(ref);
+            YamlReader reader = new YamlReader(new FileReader(url.getFile()));
+            reader.getConfig().setPropertyElementType(ControlledFSprite.class, "frames", Frame.class);
+            reader.getConfig().setPropertyElementType(ControlledFSprite.class, "animationKeys", Integer.class);
+            animation = ( ControlledFSprite) reader.read(ControlledFSprite.class);
 
             animation.init();
 

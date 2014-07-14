@@ -20,12 +20,11 @@ package org.joge.game.test;
 import org.joge.game.Game;
 import org.joge.core.draw.Color;
 import org.joge.core.draw.Graphics;
-import org.joge.core.draw.Image;
 import org.joge.core.draw.font.Font;
 import org.joge.core.draw.tilemap.TiledMap;
-import org.joge.core.input.JKeyboard;
-import org.joge.game.sprite.FSprite;
+import org.joge.core.sound.JogMedia;
 import org.joge.core.tools.ToolKit;
+import org.joge.game.sprite.ControlledFSprite;
 
 /**
  *
@@ -35,7 +34,7 @@ public class SimpleGame extends Game
 {
 
     private Font font;
-    private FSprite personne = null;
+    private ControlledFSprite personne = null;
     private TiledMap map;
     private boolean[][] allowed;
     private int x, y;
@@ -53,9 +52,8 @@ public class SimpleGame extends Game
     @Override
     protected void init()
     {
-        font = new Font(new java.awt.Font("Verdana", java.awt.Font.BOLD, 14), true);
-
-        personne = ToolKit.loadFSprit("properties/fsprite2.yml");
+        this.setFont(new Font(new java.awt.Font("Verdana", java.awt.Font.BOLD, 14), true));
+        personne = ToolKit.loadControlledFSprite("properties/fsprite2.yml");
         map = new TiledMap("tile/level1.tmx");
         int layerIndex = map.getLayerIndex("Wege");
 
@@ -69,58 +67,63 @@ public class SimpleGame extends Game
 
             }
         }
+        personne.setCollisionMap(allowed);
+        JogMedia soundPlayer = new JogMedia("data/Dee.ogg");
+        soundPlayer.playMusic(true);
+        
     }
 
     @Override
     protected void run(long elapsedTime)
     {
         float speed = 0.07f * elapsedTime;
+        personne.move(speed, SIZE);
 
-        if (JKeyboard.isKeyDown(JKeyboard.KEY_UP))
-        {
-            if (isAllowed(x, y-speed))
-            {
-                personne.moveY(-speed);
-            }
-
-            personne.setActiveAnimation("up");
-            personne.getActiveAnimation().setLoop(true);
-        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_DOWN))
-        {
-            if (isAllowed(x, y+SIZE+speed))
-            {
-                personne.moveY(speed);
-            }
-             
-            personne.setActiveAnimation("down");
-            personne.getActiveAnimation().setLoop(true);
-        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_LEFT))
-        {
-            if (isAllowed(x-speed, y))
-            {
-                personne.moveX(-speed);
-            }
-            personne.setActiveAnimation("right");
-            personne.getActiveAnimation().setLoop(true);
-        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_RIGHT))
-        {
-            if (isAllowed(x+SIZE+speed, y))
-            {
-                personne.moveX(speed);
-            }
-            personne.setActiveAnimation("left");
-            personne.getActiveAnimation().setLoop(true);
-        } else
-        {
-            personne.getActiveAnimation().setStoped(true);
-            personne.getActiveAnimation().setLoop(false);
-        }
-        
-        
-        x = (int) personne.getActiveAnimation().getXpos();
-        y = (int) personne.getActiveAnimation().getYpos();
-        x = x >= 0 && x < 640 ? x : -1;
-        y = y >= 0 && y < 640 ? y : -1;
+//        if (JKeyboard.isKeyDown(JKeyboard.KEY_UP))
+//        {
+//            if (isAllowed(x, y-speed))
+//            {
+//                personne.moveY(-speed);
+//            }
+//
+//            personne.setActiveAnimation("up");
+//            personne.getActiveAnimation().setLoop(true);
+//        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_DOWN))
+//        {
+//            if (isAllowed(x, y+SIZE+speed))
+//            {
+//                personne.moveY(speed);
+//            }
+//             
+//            personne.setActiveAnimation("down");
+//            personne.getActiveAnimation().setLoop(true);
+//        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_LEFT))
+//        {
+//            if (isAllowed(x-speed, y))
+//            {
+//                personne.moveX(-speed);
+//            }
+//            personne.setActiveAnimation("right");
+//            personne.getActiveAnimation().setLoop(true);
+//        } else if (JKeyboard.isKeyDown(JKeyboard.KEY_RIGHT))
+//        {
+//            if (isAllowed(x+SIZE+speed, y))
+//            {
+//                personne.moveX(speed);
+//            }
+//            personne.setActiveAnimation("left");
+//            personne.getActiveAnimation().setLoop(true);
+//        } else
+//        {
+//            personne.getActiveAnimation().setStoped(true);
+//            personne.getActiveAnimation().setLoop(false);
+//        }
+//        
+//        
+//        x = (int) personne.getActiveAnimation().getXpos();
+//        y = (int) personne.getActiveAnimation().getYpos();
+//        x = x >= 0 && x < 640 ? x : -1;
+//        y = y >= 0 && y < 640 ? y : -1;
     }
 
     @Override
@@ -132,20 +135,20 @@ public class SimpleGame extends Game
 
         g.setColor(Color.BLUE);
         String msg = "FPS: " + this.getFPS();
-        g.drawString(msg, font, 10, 550);
-        g.drawString("isAllowed " + isAllowed(x, y), font, 10, 530);
-        g.drawString("x: " + x + " y: " + y, font, 10, 500);
+        g.drawString(msg, 10, 550);
+//        g.drawString("isAllowed " + isAllowed(x, y), font, 10, 530);
+//        g.drawString("x: " + x + " y: " + y, font, 10, 500);
 
     }
 
-    private boolean isAllowed(float x, float y)
-    {
-        if (x == -1 || y == -1)
-        {
-            return false;
-        }
-        int xBlock = (int) x / SIZE;
-        int yBlock = (int) y / SIZE;
-        return allowed[xBlock][yBlock];
-    }
+//    private boolean isAllowed(float x, float y)
+//    {
+//        if (x == -1 || y == -1)
+//        {
+//            return false;
+//        }
+//        int xBlock = (int) x / SIZE;
+//        int yBlock = (int) y / SIZE;
+//        return allowed[xBlock][yBlock];
+//    }
 }
