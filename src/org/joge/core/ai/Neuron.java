@@ -27,11 +27,13 @@ import java.util.List;
 public class Neuron
 {
 
-    public static int type = 1;
+    public static int type = 0;
 
     private List<Double> weights;
 
     private int numInputs;
+    
+    private double fitness;
 
     public Neuron(int numInputs)
     {
@@ -62,11 +64,51 @@ public class Neuron
     {
         this.numInputs = numInputs;
     }
+
+    public double getFitness()
+    {
+        return fitness;
+    }
+
+    public void setFitness(double fitness)
+    {
+        this.fitness = fitness;
+    }
+    
+    private double sigmoid(double x)
+    {
+        switch (type)
+        {
+            case 1:
+                return 1.0 / (1.0 + Math.exp(-x));
+            case 2:
+                return (Math.tanh(x * 100) + 1.0) * 0.5;
+            default:
+                return (Math.cos(x * Math.PI) + 1) * 0.5;
+        }
+    }
+
+    public double fire(List<Double> input)
+    {
+        if (input.size() + 1 != weights.size())
+        {
+            return 0.0;
+        }
+        double answer = 0.0;
+
+        for (int i = 0; i < input.size(); i++)
+        {
+            answer += input.get(i) * weights.get(i);
+
+        }
+        answer += weights.get(weights.size() - 1);
+        return sigmoid(answer);
+    }
     
     @Override
     public String toString()
     {
-        return "Perceptron{" + "weights=" + weights + '}';
+        return "Neuron{" + "weights=" + weights + '}';
     }
 
 }

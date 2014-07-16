@@ -27,19 +27,44 @@ import java.util.List;
  */
 public class Chromosome
 {
-    private List<NeuronGene> genes = new ArrayList<>();
+    private List<Double> weights = new ArrayList<>();
+    private double fitness;
 
     public Chromosome()
     {
+        fitness=0;
     }
 
-    public List<NeuronGene> getGenes()
+    public Chromosome(double score,List<Double> weights)
     {
-        return genes;
+        this.fitness = score;
+        this.weights=weights;
+    }    
+    
+    
+    public List<Double> getWeights()
+    {
+        return weights;
     }
 
-    public void setGenes(List<NeuronGene> genes)
+    public void setWeights(List<Double> weights)
     {
-        this.genes = genes;
+        this.weights = weights;
     }
+
+    public double getFitness()
+    {
+        return fitness;
+    }
+
+    public void setFitness(double fitness)
+    {
+        this.fitness = fitness;
+    }
+    
+    public static boolean compaireChromosome(Chromosome l, Chromosome r)
+    {
+        return l.fitness<r.fitness;
+    }
+    
 }

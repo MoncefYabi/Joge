@@ -36,7 +36,7 @@ public class Brain
 
     public Brain()
     {
-        this(4, 2, 1, 6);
+        this(4, 2, 1, 4);
     }
 
     public Brain(int numInputs, int numOutputs, int numHiddenLayers, int neuronsPerHiddenLyr)
@@ -45,7 +45,6 @@ public class Brain
         this.numOutputs = numOutputs;
         this.numHiddenLayers = numHiddenLayers;
         this.neuronsPerHiddenLyr = neuronsPerHiddenLyr;
-
         createNet();
     }
 
@@ -142,7 +141,7 @@ public class Brain
         //stores the resultant outputs from each layer
         List<Double> outputs = new ArrayList<>();
 
-        int cWeight = 0;
+        int cWeight;
 
         //first check that we have the correct amount of inputs
         if (inputs.size() != numInputs)
@@ -156,47 +155,41 @@ public class Brain
         {
             if (i > 0)
             {
-                inputs = outputs;
+                inputs = new ArrayList<>(outputs);
             }
 
             outputs.clear();
 
             cWeight = 0;
 
-		//for each neuron sum the (inputs * corresponding weights).Throw 
+            //for each neuron sum the (inputs * corresponding weights).Throw 
             //the total at our sigmoid function to get the output.
             for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
             {
-                double netinput = 0;
+//                double caculatedValue;
 
-                int NumInputs = layers.get(i).getNeurons().get(j).getNumInputs();
-
-                //for each weight
-                for (int k = 0; k < NumInputs - 1; ++k)
-                {
-                    //sum the weights x inputs
-                    netinput += layers.get(i).getNeurons().get(j).getWeights().get(k)
-                            * inputs.get(cWeight++);
-                }
-
-                //add in the bias
-                netinput += layers.get(i).getNeurons().get(j).getWeights().get(NumInputs - 1) * (-1);
-
-			//we can store the outputs from each layer as we generate them. 
+//                int NumInputs = layers.get(i).getNeurons().get(j).getNumInputs();
+//
+//                //for each weight
+//                for (int k = 0; k < NumInputs - 1; ++k)
+//                {
+//                    //sum the weights x inputs
+//                    netinput += layers.get(i).getNeurons().get(j).getWeights().get(k)
+//                            * inputs.get(cWeight++);
+//                }
+//
+//                //add in the bias
+//                netinput += layers.get(i).getNeurons().get(j).getWeights().get(NumInputs - 1) * (-1);
+                //we can store the outputs from each layer as we generate them. 
                 //The combined activation is first filtered through the sigmoid 
                 //function
-                outputs.add(sigmoid(netinput, 1));
-
-                cWeight = 0;
+                //outputs.add(sigmoid(netinput, 1));
+                outputs.add(layers.get(i).getNeurons().get(j).fire(inputs));
+//                cWeight = 0;
             }
         }
 
         return outputs;
-    }
-
-    public double sigmoid(double netinput, double response)
-    {
-        return (1 / (1 + Math.exp(-netinput / response)));
     }
 
     public int getNumInputs()
