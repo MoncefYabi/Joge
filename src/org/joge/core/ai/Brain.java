@@ -17,8 +17,10 @@
  */
 package org.joge.core.ai;
 
+import org.joge.core.ai.genetic.Chromosome;
 import java.util.ArrayList;
 import java.util.List;
+import org.joge.core.ai.config.NeuralNetConfig;
 
 /**
  *
@@ -31,12 +33,12 @@ public class Brain
     private int numOutputs;
     private int numHiddenLayers;
     private int neuronsPerHiddenLyr;
-
+    private Chromosome chromosome;
     private List<NeuronLayer> layers = new ArrayList<>();
 
     public Brain()
     {
-        this(4, 2, 1, 4);
+        this(NeuralNetConfig.numInputs, NeuralNetConfig.numOutputs, NeuralNetConfig.numHiddenLayers, NeuralNetConfig.neuronsPerHiddenLyr);
     }
 
     public Brain(int numInputs, int numOutputs, int numHiddenLayers, int neuronsPerHiddenLyr)
@@ -45,10 +47,11 @@ public class Brain
         this.numOutputs = numOutputs;
         this.numHiddenLayers = numHiddenLayers;
         this.neuronsPerHiddenLyr = neuronsPerHiddenLyr;
-        createNet();
+        createNetwork();
+        chromosome= new Chromosome(0,getAllWeights());
     }
 
-    private void createNet()
+    private void createNetwork()
     {
         //create the layers of the network
         if (numHiddenLayers > 0)
@@ -71,7 +74,7 @@ public class Brain
         }
     }
 
-    public List<Double> getWeights()
+    public final List<Double> getAllWeights()
     {
         List<Double> weights = new ArrayList<>();
         //for each layer
@@ -79,33 +82,32 @@ public class Brain
         {
 
             //for each neuron
-            for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
+            for(Neuron neuron : layers.get(i).getNeurons())
             {
                 //for each weight
-                for (int k = 0; k < layers.get(i).getNeurons().get(j).getNumInputs(); ++k)
+                for (int k = 0; k < neuron.getNumInputs(); ++k)
                 {
-                    weights.add(layers.get(i).getNeurons().get(j).getWeights().get(k));
+                    weights.add(neuron.getWeights().get(k));
                 }
             }
         }
         return weights;
     }
 
-    public void putWeights(List<Double> weights)
+    public void replaceWeights(List<Double> weights)
     {
         int cWeight = 0;
-
         //for each layer
         for (int i = 0; i < numHiddenLayers + 1; ++i)
         {
 
             //for each neuron
-            for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
+            for(Neuron neuron : layers.get(i).getNeurons())
             {
                 //for each weight
-                for (int k = 0; k < layers.get(i).getNeurons().get(j).getNumInputs(); ++k)
+                for (int k = 0; k < neuron.getNumInputs(); ++k)
                 {
-                    layers.get(i).getNeurons().get(j).getWeights().set(k, weights.get(cWeight++));
+                    neuron.getWeights().set(k, weights.get(cWeight++));
                 }
             }
         }
@@ -119,17 +121,16 @@ public class Brain
         //for each layer
         for (int i = 0; i < numHiddenLayers + 1; ++i)
         {
-
             //for each neuron
-            for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
+            for(Neuron neuron : layers.get(i).getNeurons())
+            //for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
             {
                 //for each weight
-                for (int k = 0; k < layers.get(i).getNeurons().get(j).getNumInputs(); ++k)
+                for (int k = 0; k < neuron.getNumInputs(); ++k)
 
                 {
                     weights++;
                 }
-
             }
         }
 
@@ -141,14 +142,7 @@ public class Brain
         //stores the resultant outputs from each layer
         List<Double> outputs = new ArrayList<>();
 
-        int cWeight;
-
         //first check that we have the correct amount of inputs
-        if (inputs.size() != numInputs)
-        {
-            //just return an empty vector if incorrect.
-            return outputs;
-        }
 
         //For each layer....
         for (int i = 0; i < numHiddenLayers + 1; ++i)
@@ -160,38 +154,28 @@ public class Brain
 
             outputs.clear();
 
-            cWeight = 0;
-
             //for each neuron sum the (inputs * corresponding weights).Throw 
             //the total at our sigmoid function to get the output.
-            for (int j = 0; j < layers.get(i).getNeurons().size(); ++j)
+            for(Neuron neuron : layers.get(i).getNeurons())
             {
-//                double caculatedValue;
-
-//                int NumInputs = layers.get(i).getNeurons().get(j).getNumInputs();
-//
-//                //for each weight
-//                for (int k = 0; k < NumInputs - 1; ++k)
-//                {
-//                    //sum the weights x inputs
-//                    netinput += layers.get(i).getNeurons().get(j).getWeights().get(k)
-//                            * inputs.get(cWeight++);
-//                }
-//
-//                //add in the bias
-//                netinput += layers.get(i).getNeurons().get(j).getWeights().get(NumInputs - 1) * (-1);
-                //we can store the outputs from each layer as we generate them. 
-                //The combined activation is first filtered through the sigmoid 
-                //function
-                //outputs.add(sigmoid(netinput, 1));
-                outputs.add(layers.get(i).getNeurons().get(j).fire(inputs));
-//                cWeight = 0;
+                outputs.add(neuron.fire(inputs));
             }
         }
 
         return outputs;
     }
 
+    public Chromosome getChromosome()
+    {
+        return chromosome;
+    }
+
+    public void setChromosome(Chromosome chromosome)
+    {
+        this.chromosome = chromosome;
+        replaceWeights(chromosome.getWeights());
+    }
+    
     public int getNumInputs()
     {
         return numInputs;
@@ -242,4 +226,9 @@ public class Brain
         this.layers = layers;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Brain{" + "chromosome=" + chromosome + '}';
+    }
 }

@@ -15,8 +15,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.game.test.nn;
+package org.joge.core.ai.entity;
 
+import org.joge.core.ai.config.NeuralNetConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +26,6 @@ import org.joge.core.draw.Color;
 import org.joge.core.draw.Graphics;
 import org.joge.core.math.Vector2d;
 import org.joge.game.sprite.Sprite;
-import org.joge.game.test.Food;
 
 /**
  *
@@ -35,7 +35,7 @@ public class Creature extends Sprite
 {
 
     private Brain brain;
-    public static final int RANGE = 640;
+    
     public Food target;
     private double orientation;
     public final double PI = Math.PI;
@@ -52,12 +52,55 @@ public class Creature extends Sprite
     public final void setRandomPosition()
     {
         Random randomGenerator = new Random();
-        x = randomGenerator.nextInt(RANGE);
-        y = randomGenerator.nextInt(RANGE);
+        x = randomGenerator.nextInt(NeuralNetConfig.RANGE);
+        y = randomGenerator.nextInt(NeuralNetConfig.RANGE);
         orientation = PI * (2 * Math.random() - 1);
     }
 
     public boolean eat(List<Food> foods)
+    {
+        getClosestFoodObject(foods);
+        
+        List<Double> input = new ArrayList<>();
+        input.add(angleToFood(this, target));
+        input.add(distToFood(this, target) / NeuralNetConfig.RANGE);
+        
+        List<Double> output = brain.update(input);
+        double leftForce = output.get(0) * 2.0 - 1;
+        double rightForce = output.get(1) * 2.0 - 1;
+        double speed = output.get(2) * 2 - 0.5;
+       
+        orientation += (rightForce + leftForce) * PI * 0.5;
+        // move
+        x += Math.cos(orientation) * speed;
+        y += Math.sin(orientation) * speed;
+        if (x >= NeuralNetConfig.RANGE)
+        {
+            x -= NeuralNetConfig.RANGE;
+        }
+        if (y >= NeuralNetConfig.RANGE)
+        {
+            y -= NeuralNetConfig.RANGE;
+        }
+        if (x < 0)
+        {
+            x += NeuralNetConfig.RANGE;
+        }
+        if (y < 0)
+        {
+            y += NeuralNetConfig.RANGE;
+        }
+        // eat?
+        if (isNearEnough(distToFood(this, target)))
+        {
+            target.eat();
+            score++;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean eat1(List<Food> foods)
     {
         List<Double> inputs = new ArrayList<>();
 
@@ -99,21 +142,21 @@ public class Creature extends Sprite
         // move
         x += vectorLookAt.getX() * speed;
         y += vectorLookAt.getY() * speed;
-        if (x >= RANGE)
+        if (x >= NeuralNetConfig.RANGE)
         {
-            x -= RANGE;
+            x -= NeuralNetConfig.RANGE;
         }
-        if (y >= RANGE)
+        if (y >= NeuralNetConfig.RANGE)
         {
-            y -= RANGE;
+            y -= NeuralNetConfig.RANGE;
         }
         if (x < 0)
         {
-            x += RANGE;
+            x += NeuralNetConfig.RANGE;
         }
         if (y < 0)
         {
-            y += RANGE;
+            y += NeuralNetConfig.RANGE;
         }
         
         // eat?
@@ -159,6 +202,20 @@ public class Creature extends Sprite
         double d1 = creature.getX() - food.x;
         double d2 = creature.getY() - food.y;
         return Math.sqrt(d1 * d1 + d2 * d2);
+    }
+    
+    public  double angleToFood(Creature creature, Food food)
+    {
+        Vector2d v1 = new Vector2d(0,0), v2 = new Vector2d(0,0);
+        v1.setX(food.x - creature.getX());
+        v1.setY(food.y - creature.getY());
+        v2.setX(Math.cos(creature.orientation));
+        v2.setY(Math.sin(creature.orientation));
+
+        double dotProduct = v1.getX() * v2.getX() + v1.getY() * v2.getY();
+        double m = Math.sqrt(v1.getX() * v1.getX() + v1.getY() * v1.getY()); // |v2| = 1
+
+        return Math.acos(dotProduct / m);
     }
     
     private boolean isNearEnough(double dist)
@@ -207,7 +264,13 @@ public class Creature extends Sprite
         g.stop();
         if (this.getName() != null)
         {
-            g.drawString("Name: " + this.getName(), this.getX() + 12, this.getY() + 44);
+            g.drawString(this.getName()+":"+this.getScore(), this.getX()-12, this.getY() + 12);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Creature{" + "score=" +  score+ ", brain=" + brain + '}';
     }
 }

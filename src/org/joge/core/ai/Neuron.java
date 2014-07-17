@@ -19,6 +19,7 @@ package org.joge.core.ai;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.joge.core.ai.config.NeuralNetConfig;
 
 /**
  *
@@ -27,7 +28,7 @@ import java.util.List;
 public class Neuron
 {
 
-    public static int type = 0;
+    
 
     private List<Double> weights;
 
@@ -77,7 +78,7 @@ public class Neuron
     
     private double sigmoid(double x)
     {
-        switch (type)
+        switch (NeuralNetConfig.type)
         {
             case 1:
                 return 1.0 / (1.0 + Math.exp(-x));
@@ -90,18 +91,15 @@ public class Neuron
 
     public double fire(List<Double> input)
     {
-        if (input.size() + 1 != weights.size())
-        {
-            return 0.0;
-        }
+
         double answer = 0.0;
 
-        for (int i = 0; i < input.size(); i++)
+        for (int i = 0; i < input.size()-1; i++)
         {
             answer += input.get(i) * weights.get(i);
 
         }
-        answer += weights.get(weights.size() - 1);
+        answer += weights.get(weights.size() - 1)*NeuralNetConfig.bias;
         return sigmoid(answer);
     }
     

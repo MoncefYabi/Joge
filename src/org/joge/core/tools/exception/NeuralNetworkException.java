@@ -16,55 +16,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package org.joge.core.ai;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.joge.core.tools.exception;
 
 /**
  *
  * @author Moncef YABI
  */
-public class Chromosome
+public class NeuralNetworkException extends Exception
 {
-    private List<Double> weights = new ArrayList<>();
-    private double fitness;
 
-    public Chromosome()
+    public NeuralNetworkException()
     {
-        fitness=0;
     }
 
-    public Chromosome(double score,List<Double> weights)
+    public NeuralNetworkException(String message)
     {
-        this.fitness = score;
-        this.weights=weights;
-    }    
-    
-    
-    public List<Double> getWeights()
-    {
-        return weights;
-    }
-
-    public void setWeights(List<Double> weights)
-    {
-        this.weights = weights;
-    }
-
-    public double getFitness()
-    {
-        return fitness;
-    }
-
-    public void setFitness(double fitness)
-    {
-        this.fitness = fitness;
-    }
-    
-    public static boolean compaireChromosome(Chromosome l, Chromosome r)
-    {
-        return l.fitness<r.fitness;
+        super(message);
     }
     
 }

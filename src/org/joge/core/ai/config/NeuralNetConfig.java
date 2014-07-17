@@ -15,49 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.game.test;
 
-import java.util.Random;
-import org.joge.core.draw.Color;
-import org.joge.core.draw.Graphics;
+package org.joge.core.ai.config;
 
 /**
  *
- * @author Moncef YABI
+ * @author Monecef YABI
  */
-public class Food
+public class NeuralNetConfig
 {
-
-    public float x, y;
-    public static final int RANGE = 620;
-
-    public Food()
-    {
-        getRandomPosition();
-    }
-
-    private void getRandomPosition()
-    {
-        Random randomGenerator = new Random();
-        x = randomGenerator.nextInt(RANGE);
-        y = randomGenerator.nextInt(RANGE);
-    }
-
-    public Food(float x, float y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void eat()
-    {
-         getRandomPosition();
-    }
-    
-    public void render(Graphics g)
-    {
-        g.setColor(Color.GREEN);
-        g.fillRect(x, y, 5, 5);
-        
-    }
+    public static  int numInputs=2;
+    public static  int numOutputs=3;
+    public static  int numHiddenLayers=1;
+    public static  int neuronsPerHiddenLyr=4;
+    public static int type = 0;
+    public static int bias = -1;
+    public static  int RANGE = 640;
 }

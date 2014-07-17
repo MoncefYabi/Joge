@@ -15,7 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package org.joge.game.test;
+
+package org.joge.core.ai.genetic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,48 +25,23 @@ import java.util.List;
  *
  * @author Moncef YABI
  */
-public class Perceptron
+public class Chromosome
 {
+    private List<Double> weights = new ArrayList<>();
+    private double fitness;
 
-    public static int type = 2;
-
-    private List<Double> weights;
-
-    public Perceptron()
+    public Chromosome()
     {
-        weights = new ArrayList<>();
+        fitness=0;
     }
 
-    public static double sigmoid(double x)
+    public Chromosome(double fitness,List<Double> weights)
     {
-        switch (type)
-        {
-            case 1:
-                return 1.0f / (1.0f + Math.exp(-x));
-            case 2:
-                return (Math.tanh(x * 100) + 1.0) * 0.5;
-            default:
-                return (Math.cos(x * Math.PI) + 1) * 0.5;
-        }
-    }
-
-    public double execute(List<Double> input)
-    {
-        if (input.size() + 1 != weights.size())
-        {
-            return 0.0;
-        }
-        double answer = 0.0;
-
-        for (int i = 0; i < input.size(); i++)
-        {
-            answer += input.get(i) * weights.get(i);
-
-        }
-        answer += weights.get(weights.size() - 1);
-        return sigmoid(answer);
-    }
-
+        this.fitness = fitness;
+        this.weights=weights;
+    }    
+    
+    
     public List<Double> getWeights()
     {
         return weights;
@@ -76,12 +52,24 @@ public class Perceptron
         this.weights = weights;
     }
 
+    public double getFitness()
+    {
+        return fitness;
+    }
+
+    public void setFitness(double fitness)
+    {
+        this.fitness = fitness;
+    }
+    
+    public static boolean compaireChromosome(Chromosome l, Chromosome r)
+    {
+        return l.fitness<r.fitness;
+    }
+
     @Override
     public String toString()
     {
-        return "Perceptron{" + "weights=" + weights + '}';
+        return "Chromosome{" + "weights=" + weights + '}';
     }
-    
-    
-
 }
