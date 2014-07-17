@@ -78,7 +78,7 @@ public class Neuron
     
     private double sigmoid(double x)
     {
-        switch (NeuralNetConfig.type)
+        switch (NeuralNetConfig.newuronType)
         {
             case 1:
                 return 1.0 / (1.0 + Math.exp(-x));

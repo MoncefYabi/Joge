@@ -28,7 +28,7 @@ public class NeuralNetConfig
     public static  int numOutputs=3;
     public static  int numHiddenLayers=1;
     public static  int neuronsPerHiddenLyr=4;
-    public static int type = 0;
+    public static int newuronType = 0;
     public static int bias = -1;
     public static  int RANGE = 640;
 }
