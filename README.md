@@ -20,9 +20,6 @@ Documentation
 ====
 The [Wiki](https://github.com/MoncefYabi/Joge/wiki) contains all the information you'll need to write a 
 Joge game. You can contribute to the Wiki directly here on GitHub!
-Contributing 
-====
-Joge needs your support. To contribute, you need to work with the sources directly.
 
 Old Web site
 ====
