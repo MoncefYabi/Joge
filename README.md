@@ -1,5 +1,4 @@
-
-
+## Joge is discontinued. Please see the [Koge](https://github.com/MoncefYabi/Koge) game Framwork.
 
 Joge
 ====
